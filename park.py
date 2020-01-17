@@ -9,6 +9,7 @@ class Map:
     #you is Ishara
     #me is me
     def openwindow:
+        # this is what i changed
         pass you
     def drawtile:
         #draw the grid
@@ -16,6 +17,7 @@ class Map:
 		print("lets see if this works")
         pass me
     def makevalid:
+        # and here
         #makes a tile valid for car motion etc
         pass you
     

@@ -13,6 +13,7 @@ class Map:
     def drawtile:
         #draw the grid
         #initial all black squares
+		print("lets see if this works")
         pass me
     def makevalid:
         #makes a tile valid for car motion etc

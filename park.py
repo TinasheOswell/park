@@ -15,7 +15,7 @@ class Map:
     #me is me
     def openwindow(self):
         #opens the window
-        self.Window = pygame.display.set_mode((1000,600))
+        self.Window = pygame.display.set_mode((800,1500))
         pygame.display.set_caption("Parking")
 
         #keeps it open until the x is clicked
@@ -30,7 +30,8 @@ class Map:
         #draw the grid
         #initial all black squares
         pass #me
-    def makevalid(self, valid_tile_list):
+
+    def makevalidroad(self, valid_tile_list):
         ## how should this work?
             ##add tiles to a valid tile list OR
             ##change the tile attribute valid to true??
@@ -51,6 +52,7 @@ class Map:
     
     def make_path(self):
         #makes tiles valid for driving
+        #### not neccesary ### this function is lije makevalidroad ###
         pass #me
     
     
@@ -60,8 +62,20 @@ class Map:
 
 
 class Tile:
-    pass
+
+    def __init__(self, valid_road, valid_park, location):
+        self.valid_road = valid_road
+        self.valid_park = valid_park
+        self.location = location
+
+    def draw(self):
+        #draw itself
+        #me
+        pass
+
+
     #attributes :
+        #(valid road, valid park, none)
         #color, parking or not path or not you
         # draws itself me
         #location and size you

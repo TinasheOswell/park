@@ -46,9 +46,9 @@ class Map:
     
     #calls the maketile method and creates a grid of tiles to be used as the map
     def makeTiles(self):
-        for col_i in range(0, self.get_size()[1]):
+        for col_i in range(0, int(self.get_size()[1]/self.tile_dim[1])):
             row = []
-            for row_i in range(0, self.get_size()[0]):
+            for row_i in range(0, int(self.get_size()[0]/self.tile_dim[0])):
                 tile = self.maketile([(row_i * self.tile_dim[0]), (col_i*self.tile_dim[1])])
                 row.append(tile)
             self.map.append(row)

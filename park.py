@@ -9,7 +9,7 @@ def main():
     #worldmap.openwindow()
 
 class Map:
-    Window = None
+    #Window = None
     #why?? Window = None
     #has tiles 
     #you is Ishara
@@ -20,6 +20,7 @@ class Map:
         self.tile_dim = (15, 8)
         Tile.set_dimen(self.tile_dim)
         self.makeTiles()
+        self.makevalidroad([6,6])
         self.openwindow()
         
     def openwindow(self):
@@ -64,14 +65,29 @@ class Map:
                 tile.draw(count)
         #me
 
-    def makevalidroad(self, valid_tile_list):
+    def makevalidroad(self, start_index):
         ## how should this work?
             ##add tiles to a valid tile list OR
             ##change the tile attribute valid to true??
         # and here
         #makes a tile valid for car motion etc
-        pass #you
-    
+        for i in range (start_index[0], 76):
+            self.path(start_index,False,True)
+            start_index[1] = start_index[1]+1
+
+        for i in range (start_index[1], 50):
+            self.path
+
+    def path (self, tile_index, vertical, horizontal):
+        if vertical:
+            for i in range (0, 2):
+                self.map[tile_index[0]][tile_index[1]-i].valid_road = True
+                self.map[tile_index[0]][tile_index[1]+i].valid_road = True
+        else:
+            for i in range (0, 2):
+                self.map[tile_index[0]-i][tile_index[1]].valid_road = True
+                self.map[tile_index[0]+i][tile_index[1]].valid_road = True
+
     def makeparkingspots(self):
         #uses (x,y) coordinates
         #makes certain tiles for parking
@@ -98,7 +114,8 @@ class Map:
 class Tile:
     
     window = None
-    back_col = pygame.Color(46, 80, 143)
+    blue_col = pygame.Color(46, 80, 143)
+    white_col = pygame.Color(255,255,255)
     boarder_width = 1
     dimen = None
     
@@ -117,10 +134,13 @@ class Tile:
         self.rectangle = pygame.Rect(location[0], location[1], Tile.dimen[0], Tile.dimen[1])
         
     def draw(self, count):
+        if self.valid_road:
+            pygame.draw.rect(Tile.window, Tile.white_col, self.rectangle, Tile.boarder_width)
+        else:
+            pygame.draw.rect(Tile.window, Tile.blue_col, self.rectangle, Tile.boarder_width)
         #draw itself
         #me
         #print("called" + str(count))
-        pygame.draw.rect(Tile.window, Tile.back_col, self.rectangle, Tile.boarder_width)
         
 
 

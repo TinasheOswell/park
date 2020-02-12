@@ -119,9 +119,11 @@ class Map:
                 self.map[tile_index[0]][tile_index[1]-i].valid_road = True
                 self.map[tile_index[0]][tile_index[1]+i].valid_road = True
         else:
-            for i in range (0, 3):
-                self.map[tile_index[0]-i][tile_index[1]].valid_road = True
-                self.map[tile_index[0]+i][tile_index[1]].valid_road = True
+            for i in range (0, 4):
+                self.map[tile_index[0] + (i)][tile_index[1]].valid_road = True
+                self.map[tile_index[0] - (i)][tile_index[1]].valid_road = True
+                self.map[tile_index[0]-(i+1)][tile_index[1]].valid_road = True
+                self.map[tile_index[0]+(i+1)][tile_index[1]].valid_road = True
 
     def makeparkingspots(self):
         #uses (x,y) coordinates

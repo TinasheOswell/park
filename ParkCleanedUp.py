@@ -7,12 +7,12 @@ from random import shuffle
 
 def main():
 
-    window = Window('Memory', 1500, 800)
+    window = Window('PARK', 1500, 800)
     window.set_auto_update(False)
     map = Map(window)
     #pass map to car
     map.play()
-
+    #window.close()
 
 class Map:
     def __init__(self,window):
@@ -104,6 +104,7 @@ class Map:
                 self.map[tile_index[0]+(i+1)][tile_index[1]].valid_road = True
 
     def play(self):
+
         while not self.close_clicked:  # until user clicks close box
             # play frame
             self.handle_event()

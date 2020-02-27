@@ -1,6 +1,8 @@
 # park
 reinforcement learning parking system
 
+This project uses uagame.py which is a module from the cmput 174 class at the University of Alberta.
+
 Class Car:
 	Drive: increases the velocity of the car by 1 unit (if the car is in forward motion):
 	Reverse: decreases the velocity of the car by 1 unit (if the car is in backward motion):

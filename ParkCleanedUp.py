@@ -3,7 +3,7 @@ import pygame, time, os
 from uagame import Window
 from pygame.locals import *
 import math
-from random import shuffle
+from random import shuffle, randint
 
 def main():
 
@@ -24,18 +24,12 @@ class Map:
 
         self.size = (1500, 800)
         self.map = []
+        self.parkingSpots = []
         self.tile_dim = (15, 8)
         Tile.set_dimen(self.tile_dim)
         self.makeTiles()
         self.makevalidroad([7, 6])
-        #self.openwindow()
-        #self.board_size = 4
-        #self.board = []
-        #self.images = []
-        #self.create_images()
-        #self.create_board()
-        #self.score = 0
-        #self.flipped_tiles = []
+        self.create_pspots()
 
     def makeTiles(self):
         for col_i in range(0, self.get_size()[1]):
@@ -167,10 +161,91 @@ class Map:
             #self.Continue= False
         pass
 
+    def create_pspots(self):
+        j=12
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        j=17
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        
+        j=22
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        j=27
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        j = 35
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j-1][i]
+            third = self.map[j-2][i]
+            last = self.map[j-3][i]
+            five = self.map[j-4][i]
+            self.make_pspot([first, sec, third, last, five])
+        
+        j=12 + 53
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        j=17+ 53
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        
+        j=22+ 53
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        j=27+ 53
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j][i+1]
+            third = self.map[j+1][i]
+            last = self.map[j+1][i+1]
+            self.make_pspot([first, sec, third, last])
+        j = 35+ 53
+        for i in range(9, 54, 2):
+            first = self.map[j][i]
+            sec = self.map[j-1][i]
+            third = self.map[j-2][i]
+            last = self.map[j-3][i]
+            five = self.map[j-4][i]
+            self.make_pspot([first, sec, third, last, five])
 
+    def make_pspot(self, tiles):
+        parking_s = ParkingSpot(tiles)
+        self.parkingSpots.append(parking_s)
+        
     def get_size(self):
         return self.size
 
+# +
 class Tile:
     window = None
     dimen = None
@@ -194,11 +269,51 @@ class Tile:
         self.valid_park = valid_park
         self.location = location
         self.rectangle = pygame.Rect(location[0], location[1], Tile.dimen[0], Tile.dimen[1])
-
-    def draw(self):
-        if self.valid_road:
-            pygame.draw.rect(Tile.window.get_surface(), Tile.white_col, self.rectangle, Tile.boarder_width)
+        self.color = pygame.Color("green")
+        self.boarder = Tile.boarder_width
+        
+    def changecol(self, val):
+        self.color = val
+        
+    def validpark(self, val):
+        self.valid_park = val
+        
+#     def ctest(self):
+#         self.test = True
+        
+    def getRect(self):
+        return self.rectangle
+    
+    def updatec(self):
+        if self.valid_park:
+            self.boarder = 0
+        elif self.valid_road:
+            self.color = Tile.white_col
+#         elif self.test:
+#             self.color = pygame.Color(255, 0, 0)
         else:
-            pygame.draw.rect(Tile.window.get_surface(), Tile.blue_col, self.rectangle, Tile.boarder_width)
+            self.color = Tile.blue_col
+        
+    def draw(self):
+        self.updatec()
+        pygame.draw.rect(Tile.window.get_surface(), self.color, self.rectangle, self.boarder)
+
+
+# -
+
+class ParkingSpot:
+    def __init__(self, tiles, rects=False, location = []):
+        color = pygame.Color(randint(0,255), randint(0,255), randint(0,255))
+        ls=[]
+        for tile in tiles:
+            tile.validpark(True)
+            tile.changecol(color)
+            ls.append(tile.getRect())
+        
+        rec = ls.pop(0)
+        self.rect = rec.unionall(ls)
+
 
 main()
+
+

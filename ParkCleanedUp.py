@@ -1,9 +1,11 @@
 
 import pygame, time, os
 from uagame import Window
+from car import Car
 from pygame.locals import *
 import math
 from random import shuffle, randint
+
 
 def main():
 
@@ -30,6 +32,7 @@ class Map:
         self.makeTiles()
         self.makevalidroad([7, 6])
         self.create_pspots()
+        self.car = Car(window)
 
     def makeTiles(self):
         for col_i in range(0, self.get_size()[1]):
@@ -144,8 +147,17 @@ class Map:
         for row in self.map:
             for tile in row:
                 tile.draw()
+        self.draw_car()
         #self.draw_score()
         self.window.update()
+
+    def draw_car(self):
+        car_image = self.car.load_car()
+        rotated = pygame.transform.rotate(car_image, self.car.angle)
+        rect = rotated.get_rect()
+        surface = self.window.get_surface()
+        destination = (self.car.location[0] - (rect.width/8), self.car.location[1] - (rect.height/8))
+        surface.blit(rotated, self.car.location)
 
     def update(self):
         # Update the game objects.

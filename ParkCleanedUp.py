@@ -52,43 +52,41 @@ class Map:
             ##change the tile attribute valid to true??
         # and here
         #makes a tile valid for car motion etc
-        for i in range (start_index[1], 90):
-            #self.map[100-start_index[0]][6].valid_road = True
-            bottom_index = [100-start_index[0],start_index[1]]
-            #top_index = [start_index]
-            self.path(start_index,False,True)
-            start_index[1] = start_index[1]+1
-            self.path(bottom_index, False, True)
+        topindex = [start_index[0],start_index[1]]
+        for i in range (start_index[1], 94):
+            bottomindex = [100 - start_index[0], topindex[1]]
+            self.path(topindex,False)
+            topindex = [start_index[0], topindex[1]+1]
+            self.path(bottomindex, False)
 
-        for i in range (start_index[0], 94 ):
-            rightindex = [start_index[0],start_index[1]+2]
-            self.path(rightindex, True, False)
-            self.path([start_index[0], start_index[1]-6], True, False)
-            self.path([start_index[0], start_index[1] - 15], True, False)
-            self.path([start_index[0], start_index[1] - 24], True, False)
-            self.path([start_index[0], start_index[1] - 33], True, False)
-            start_index[0] = start_index[0] + 1
+        rightindex = [start_index[0], start_index[1] + 90]
+        for i in range(start_index[0], 94):
+            self.path(rightindex, True)
+            self.path([rightindex[0], rightindex[1] - 8], True)
+            self.path([rightindex[0], rightindex[1] - 18], True)
+            self.path([rightindex[0], rightindex[1] - 28], True)
+            self.path([rightindex[0], rightindex[1] - 39], True)
+            rightindex[0] = rightindex[0] + 1
 
         umiddle_index = [40, 6]
         bmiddle_index = [60, 6]
         for i in range(6, 55):
-            self.path(umiddle_index, False, True)
+            self.path(umiddle_index, False)
             umiddle_index[1] = umiddle_index[1] + 1
-            self.path(bmiddle_index, False, True)
+            self.path(bmiddle_index, False)
             bmiddle_index[1] = bmiddle_index[1] + 1
 
         rightindex = [6, 6]
         for i in range(6, 41):
-            self.path(rightindex, True, False)
+            self.path(rightindex, True)
             rightindex[0] = rightindex[0] + 1
 
         rightindex = [60, 6]
         for i in range(6, 41):
-            self.path(rightindex, True, False)
+            self.path(rightindex, True)
             rightindex[0] = rightindex[0] + 1
 
-    def path (self, tile_index, vertical, horizontal):
-        #road_size = int ((12000 / (self.num_of_grids)))*2
+    def path (self, tile_index, vertical):
         if vertical:
             for i in range (0, 3):
                 self.map[tile_index[0]][tile_index[1]-i].valid_road = True
